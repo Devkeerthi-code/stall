@@ -1,0 +1,139 @@
+/* Signature components shared across concept board, dashboard and storefront. */
+
+/* ---------- 1. Rolling shutter ---------- */
+.shutter-frame { position: relative; border: 1px solid var(--ink); background: var(--paper); overflow: hidden; }
+.shutter-housing {
+  position: relative; z-index: 3; height: 28px; background: var(--ink); color: var(--paper);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 var(--s-3);
+}
+.shutter-housing .label { color: inherit; opacity: .8; }
+.shutter-stage { position: relative; overflow: hidden; }
+.shutter-reveal { opacity: 0; transform-origin: 50% 0; }
+.shutter {
+  position: absolute; inset: 0; z-index: 2; will-change: transform;
+  background:
+    linear-gradient(180deg, transparent 0 calc(100% - 22px), var(--ink) calc(100% - 22px)),
+    repeating-linear-gradient(180deg, var(--paper-3) 0 9px, var(--rule) 9px 10px, var(--paper-2) 10px 17px, var(--ink-3) 17px 18px);
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.shutter__handle {
+  width: 56px; height: 8px; margin-bottom: 7px; background: var(--paper-3); border-radius: var(--r-1);
+}
+.shutter__lock {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  background: var(--paper); border: 1px solid var(--ink); padding: var(--s-2) var(--s-3);
+  font-family: var(--font-mono); font-size: var(--t-label); letter-spacing: .08em; text-transform: uppercase;
+}
+
+/* ---------- 3. Open / closed board ---------- */
+.board {
+  position: relative; display: inline-block; border: 0; background: none; padding: 18px 0 0;
+  perspective: 600px; min-width: 132px; min-height: 44px;
+}
+.board__strings {
+  position: absolute; top: 0; left: 18%; right: 18%; height: 20px; pointer-events: none;
+  border-left: 1px solid var(--ink-3); border-right: 1px solid var(--ink-3);
+}
+.board__strings::before {
+  content: ""; position: absolute; left: 50%; top: -4px; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--ink); transform: translateX(-50%);
+}
+.board__inner { position: relative; display: block; transform-style: preserve-3d; will-change: transform; }
+.board__face {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 40px; padding: 0 var(--s-4); backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  font-weight: 800; font-size: var(--t-small); letter-spacing: .02em; border: 1.5px solid currentColor;
+  border-radius: var(--r-1); background: var(--paper); white-space: nowrap;
+}
+.board__face--open { color: var(--ok); }
+.board__face--closed {
+  position: absolute; inset: 0; color: var(--bad); transform: rotateY(180deg);
+  flex-direction: column; gap: 0; line-height: 1.15;
+}
+.board__face--closed small { font-weight: 500; font-size: 11px; color: var(--ink-2); }
+.board__dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+/* ---------- 4. Swinging price tag ---------- */
+.ptag {
+  position: absolute; top: 0; right: 14px; z-index: 2; display: flex; flex-direction: column; align-items: center;
+  transform-origin: 50% 0; will-change: transform; cursor: grab; border: 0; background: none; padding: 0;
+  transform: rotate(var(--tag-rest, 0deg));
+}
+.ptag__string { width: 1px; height: 22px; background: var(--ink); }
+.ptag__card {
+  position: relative; background: var(--paper); color: var(--ink); border: 1px solid var(--ink);
+  padding: 10px 10px 8px; min-width: 64px; text-align: center; border-radius: 2px 2px 4px 4px;
+  clip-path: polygon(22% 0, 78% 0, 100% 16%, 100% 100%, 0 100%, 0 16%);
+  font-weight: 800; font-size: 1rem; line-height: 1.1; font-variant-numeric: tabular-nums;
+}
+.ptag__card::before {
+  content: ""; position: absolute; top: 5px; left: 50%; width: 6px; height: 6px; margin-left: -3px;
+  border-radius: 50%; border: 1px solid var(--ink); background: var(--paper-2);
+}
+.ptag__card small { display: block; font-family: var(--font-mono); font-weight: 500; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-top: 2px; }
+
+/* ---------- 5. Ledger row hit (after a stamp lands) ---------- */
+[data-row].is-hit { animation: row-hit 140ms var(--ease-out); }
+@keyframes row-hit { 30% { transform: translateY(1px); } }
+
+/* ---------- 6. Counter sign (A5) + status image (9:16) ---------- */
+.sign {
+  --sign-paint: var(--shop); --sign-ink: var(--shop-ink);
+  aspect-ratio: 148 / 210; width: 100%; max-width: 300px; background: #FBF8F2; color: #1C1A17;
+  border: 1px solid #1C1A17; display: grid; grid-template-rows: auto 1fr auto; will-change: transform;
+  box-shadow: 0 1px 0 #1C1A17, 0 18px 30px -18px rgba(28, 26, 23, .45);
+  transform-origin: 50% 100%;
+}
+.sign__board { background: var(--sign-paint); color: var(--sign-ink); padding: 14px 16px 12px; }
+.sign__board .sign__name { font-size: 1.6rem; line-height: 1; letter-spacing: -.02em; }
+.sign__board p { font-size: 11px; margin-top: 6px; opacity: .9; }
+.sign__mid { display: grid; place-items: center; padding: 12px 16px; gap: 8px; text-align: center; }
+.sign__qr { width: 62%; aspect-ratio: 1; background: #fff; padding: 6px; border: 1px solid #1C1A17; }
+.sign__qr svg { width: 100%; height: 100%; }
+.sign__cta { font-weight: 800; font-size: .95rem; line-height: 1.2; }
+.sign__foot {
+  display: flex; justify-content: space-between; gap: 8px; border-top: 1px solid #1C1A17;
+  padding: 8px 12px; font-family: var(--font-mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase;
+}
+.status-img {
+  aspect-ratio: 9 / 16; width: 100%; max-width: 200px; background: var(--shop); color: var(--shop-ink);
+  display: grid; grid-template-rows: auto 1fr auto; padding: 14px; gap: 10px; border: 1px solid #1C1A17;
+  will-change: transform;
+}
+.status-img__name { font-size: 1.35rem; line-height: 1; letter-spacing: -.02em; }
+.status-img__item {
+  background: #FBF8F2; color: #1C1A17; align-self: center; padding: 10px; display: grid; gap: 6px;
+}
+.status-img__photo { aspect-ratio: 1; background: linear-gradient(150deg, #E9C9A6, #B9805A 70%, #8A5638); }
+.status-img__price { font-weight: 800; font-size: 1.15rem; }
+.status-img__foot { font-family: var(--font-mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+
+/* ---------- 2. Receipt slip ---------- */
+.slip {
+  position: relative; background: #FBF8F2; color: #1C1A17; font-family: var(--font-mono); font-size: 13px;
+  padding: var(--s-4) var(--s-4) calc(var(--s-5) + 6px); transform-origin: 50% 100%; will-change: transform;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 12px 100%;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 12px 100%;
+}
+:root[data-theme="dark"] .slip { background: #EFE8DA; }
+.slip__head { text-align: center; border-bottom: 1px dashed #1C1A17; padding-bottom: var(--s-3); margin-bottom: var(--s-2); }
+.slip__head strong { display: block; font-family: var(--font-sans); font-weight: 800; font-size: 1.05rem; }
+.slip__meta { display: flex; justify-content: space-between; font-size: 11px; color: #5A544A; margin-bottom: var(--s-2); }
+.slip__lines { list-style: none; margin: 0; padding: 0; }
+.slip__line {
+  display: grid; grid-template-columns: 2.4em 1fr auto; gap: 8px; padding: 6px 0;
+  border-bottom: 1px dotted #B9AE98; align-items: baseline; transform-origin: 50% 0;
+}
+.slip__line.is-printing { animation: print-line 160ms var(--ease-out) both; }
+@keyframes print-line { from { opacity: 0; transform: translateY(-6px) scaleY(.6); } }
+.slip__line .qty { color: #5A544A; }
+.slip__line small { display: block; color: #5A544A; font-size: 11px; }
+.slip__empty { padding: var(--s-4) 0; text-align: center; color: #5A544A; font-size: 12px; }
+.slip__total {
+  display: flex; justify-content: space-between; align-items: baseline; padding-top: var(--s-3);
+  margin-top: var(--s-2); border-top: 1px dashed #1C1A17; font-weight: 600;
+}
+.slip__total b { font-family: var(--font-sans); font-weight: 800; font-size: 1.35rem; }
+.status-img { overflow: hidden; }
+.status-img__item { min-height: 0; }
+.status-img__photo { aspect-ratio: 5 / 4; }
