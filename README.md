@@ -2,7 +2,9 @@
 
 A free online catalogue for small Indian shops: customers browse everything you sell on one link and send their order to you on WhatsApp.
 
-**Live demo:** TODO: add the Vercel link after deploying.
+**Try it now (no sign-up):** [devkeerthi-code.github.io/stall](https://devkeerthi-code.github.io/stall/): browse the two DEMO shops, fill an order slip and see the exact WhatsApp message.
+
+**Full app:** TODO: add the Vercel link after deploying.
 
 ## Who is this for and what problem does it solve?
 
@@ -140,7 +142,7 @@ npm run db:seed             # optional: the two DEMO shops
 npm run dev                 # http://localhost:3000
 ```
 
-Other scripts: `npm test` (Vitest; needs no database), `npm run lint`, `npm run typecheck`, `npm run build`.
+Other scripts: `npm test` (Vitest; needs no database), `npm run lint`, `npm run typecheck`, `npm run build`, `npm run demo:build` (static demo into `demo-dist/`).
 
 Without `BLOB_READ_WRITE_TOKEN`, photos are saved to `public/uploads/` (git-ignored).
 
@@ -164,6 +166,16 @@ Without `BLOB_READ_WRITE_TOKEN`, photos are saved to `public/uploads/` (git-igno
 
 TODO: add the live link at the top of this README.
 
+### Static demo on GitHub Pages
+
+`.github/workflows/demo.yml` publishes `demo/` to GitHub Pages on every push to `main`. It is the real storefront (the same React components, CSS, cart pricing and WhatsApp message builder) bundled with esbuild:
+
+- the two DEMO shops come from `prisma/demo-shops.ts`, the same data the seed uses
+- `/api/orders` is answered in the browser
+- `next/link` and `next/image` are swapped for plain HTML
+
+It needs no database, so it can't show the owner dashboard, saved orders or uploads. One-time setup: repo Settings → Pages → Source: **GitHub Actions**.
+
 ## Limitations and what breaks at scale
 
 - **Rate limits are in-memory per server instance.** On Vercel each instance has its own counters, so a determined attacker spread across instances gets more attempts. Next step: Upstash Redis or Postgres-backed limits.
@@ -171,6 +183,7 @@ TODO: add the live link at the top of this README.
 - **Order status isn't pushed to anyone.** The owner still replies in WhatsApp, and the customer checks the status page manually.
 - **Analytics are approximate.** Views are de-duplicated per browser tab session and counted with one upsert per view. That's fine for small shops; a viral shop would create hot rows, so batch the counts in a queue.
 - **The storefront loads the whole catalogue.** It's capped at 500 products per shop. Very large kirana catalogues would need pagination and server-side search.
+- **The GitHub Pages demo is storefront-only.** Product pages, order tracking and the owner side need the server, so they only work in the full app.
 - **Share images use the default font**, so product names in Indian scripts can render as boxes in link previews and status images. Bundling Noto fonts for next/og would fix it, at the cost of larger functions.
 - **Open/closed uses fixed India time** and doesn't know about holidays.
 - **Translations need a native-speaker review**, especially Tamil, Kannada, Telugu and Malayalam. WhatsApp messages are always in English so every owner can read them.
