@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { isHex } from "@/lib/colour";
-import { weekHoursSchema } from "@/lib/hours";
+import type { WeekHours } from "@/lib/hours";
 import { parseRupeesToPaise } from "@/lib/money";
 import { normalizeIndianMobile } from "@/lib/phone";
 import { checkSlug, SLUG_MESSAGES } from "@/lib/slug";
@@ -67,7 +67,15 @@ export const shopContactSchema = z.object({
   deliveryNote: optionalText(240),
 }).refine((v) => v.pickup || v.delivery, { message: "Choose pickup, delivery or both.", path: ["pickup"] });
 
-export const shopHoursSchema = weekHoursSchema;
+const time = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Use 24-hour time like 09:30");
+const dayHoursSchema = z.object({ closed: z.boolean(), open: time, close: time });
+export const shopHoursSchema = z.array(dayHoursSchema).length(7) satisfies z.ZodType<WeekHours>;
+
+/** Opening hours as stored in the shop's JSON column, or null if they're missing or malformed. */
+export function parseHours(value: unknown): WeekHours | null {
+  const parsed = shopHoursSchema.safeParse(value);
+  return parsed.success ? parsed.data : null;
+}
 
 export const priceSchema = z.string().transform((v, ctx) => {
   const paise = parseRupeesToPaise(v);

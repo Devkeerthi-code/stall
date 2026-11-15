@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { DEFAULT_HOURS, parseHours } from "@/lib/hours";
+import { DEFAULT_HOURS } from "@/lib/hours";
+import { parseHours } from "@/lib/validation";
 import { formatIndianMobile } from "@/lib/phone";
 import { siteUrl } from "@/lib/site";
 import { requireOwnerId } from "@/server/session";

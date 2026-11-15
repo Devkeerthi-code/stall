@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getDb } from "@/lib/db";
-import { DEFAULT_HOURS, parseHours } from "@/lib/hours";
+import { DEFAULT_HOURS } from "@/lib/hours";
+import { parseHours } from "@/lib/validation";
 import { formatRupees } from "@/lib/money";
 import { formatIndianMobile } from "@/lib/phone";
 import { displayUrl, shopUrl, siteUrl } from "@/lib/site";

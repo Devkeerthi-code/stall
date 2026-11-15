@@ -2,8 +2,8 @@ import { unstable_cache } from "next/cache";
 import { storefrontTag } from "@/lib/cache";
 import type { Db } from "@/lib/db";
 import { getDb } from "@/lib/db";
-import { parseHours, type WeekHours } from "@/lib/hours";
-import type { Language } from "@/lib/validation";
+import type { WeekHours } from "@/lib/hours";
+import { parseHours, type Language } from "@/lib/validation";
 
 export type StorefrontVariant = { id: string; label: string; pricePaise: number };
 export type StorefrontPhoto = { url: string; width: number; height: number };

@@ -1,26 +1,16 @@
-import { z } from "zod";
-
+// No zod here: this file ships to every storefront visitor. The schema lives in validation.ts.
 export const TIME_ZONE = "Asia/Kolkata";
 export const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
 
-const time = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Use 24-hour time like 09:30");
-
-export const dayHoursSchema = z.object({ closed: z.boolean(), open: time, close: time });
-export const weekHoursSchema = z.array(dayHoursSchema).length(7);
-
-export type DayHours = z.infer<typeof dayHoursSchema>;
-export type WeekHours = z.infer<typeof weekHoursSchema>;
+export type DayHours = { closed: boolean; open: string; close: string };
+/** Seven days, Sunday first. */
+export type WeekHours = DayHours[];
 
 export const DEFAULT_HOURS: WeekHours = Array.from({ length: 7 }, (_, day) => ({
   closed: day === 0,
   open: "10:00",
   close: "20:00",
 }));
-
-export function parseHours(value: unknown): WeekHours | null {
-  const parsed = weekHoursSchema.safeParse(value);
-  return parsed.success ? parsed.data : null;
-}
 
 function toMinutes(hhmm: string): number {
   const [h = 0, m = 0] = hhmm.split(":").map(Number);
