@@ -1,0 +1,16 @@
+/* Only the strip that marks this page as the static demo; everything else is the app's own CSS. */
+:root {
+  --font-manrope: "Manrope";
+  --font-plex-mono: "IBM Plex Mono";
+}
+
+.demo-bar {
+  display: grid; gap: var(--s-3); padding: var(--s-3) var(--s-4);
+  background: var(--paper-2); border-bottom: 1px dashed var(--ink-3);
+}
+.demo-bar__note { margin: 0; font-size: var(--t-small); color: var(--ink-2); max-width: 70ch; }
+.demo-bar .chip { display: inline-flex; align-items: center; color: var(--ink); text-decoration: none; }
+.demo-bar .chip[aria-current="page"] { background: var(--ink); color: var(--paper); }
+@media (min-width: 1024px) {
+  .demo-bar { grid-template-columns: 1fr auto; align-items: center; padding: var(--s-3) var(--s-6); }
+}
