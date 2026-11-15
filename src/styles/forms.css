@@ -1,0 +1,18 @@
+/* Setup and editor forms. */
+.step-title { font-size: var(--t-h3); font-weight: 700; letter-spacing: -.02em; }
+.step-title .mono { font-weight: 500; font-size: var(--t-label); color: var(--ink-3); display: block; margin-bottom: var(--s-2); letter-spacing: .04em; }
+.help { color: var(--ink-2); font-size: var(--t-small); margin-top: var(--s-2); max-width: 52ch; }
+.swatch-custom {
+  width: 44px; height: 44px; border: 1px dashed var(--ink); position: relative; display: grid; place-items: center;
+  background: conic-gradient(#E07A4F, #A16207, #2F855A, #0E7490, #2440A8, #7C3AED, #BE185D, #E07A4F);
+}
+.swatch-custom input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.swatch-custom:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.contact-form, .step-body form { max-width: 560px; }
+.settings-grid { display: grid; gap: 0; }
+.image-slot { display: grid; grid-template-columns: 96px 1fr; gap: var(--s-4); align-items: center; padding: var(--s-3) 0; border-bottom: var(--hair); }
+.image-slot__pic { width: 96px; aspect-ratio: 1; border: var(--hair); position: relative; overflow: hidden; background: var(--paper-2); }
+.image-slot__pic--wide { aspect-ratio: 3 / 1; }
+.image-slot__pic img { object-fit: cover; }
+.confirm-danger { border-color: var(--bad) !important; color: var(--bad) !important; }
+.swatches button[aria-checked="true"]::after { content: ""; position: absolute; inset: 4px; border: 2px solid var(--paper); outline: 1px solid var(--ink); }
